@@ -9,7 +9,7 @@ clear
 
 # Comandos Iniciales
 echo "Procedemos a actualizar la distribucion Rolling Release e instalacion de la base BSPWM"
-sudo pacman -Sy --noconfirm && sudo pacman -S base-devel nitrogen bspwm sxhkd xorg-xinit rofi polybar zsh git feh tcc glibc make pam xcb-util libxcb xorg xorg-auth util-linux ncurses tilix ttf-fire-code networkmanager iwd pcmanfm samba wget python python-pip firewalld pulseaudio pulseaudio-alsa pavucontrol--noconfirm
+sudo pacman -Sy --noconfnirm && sudo pacman -S base-devel nitrogen bspwm sxhkd xorg-xinit rofi polybar zsh git feh tcc glibc make pam xcb-util libxcb xorg xorg-auth util-linux ncurses tilix ttf-fire-code networkmanager iwd pcmanfm samba wget python python-pip firewalld pulseaudio pulseaudio-alsa pavucontrol--noconfirm
 # Procedemos a clonar yay
 echo "Se procede a clonar y compilar yay"
 git clone https://aur.archlinux.org/yay-git
@@ -51,13 +51,28 @@ echo "Se realiza la copia del archivo sxhkdrc
 echo "Copiando ..."
 cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
 echo "Copia Completa !"
-
 echo ""
+
+	# Se abren los archivos de configuracion
+	# Inicio lectura bspwmrc
+echo "Abriendo bspwmrc para el8minar los Escritorios.. Recomendacion 4"
+echo " Abriendo Bspwmrc "
+sudo nano ~/.config/bspwm/bspwmrc
+echo "Guardando ... "
+echo "Exitoso "
+	# "Fin lecura bspwmrc
+echo " "
+	# Inicio lectura sxhkdrc
+echo "Abriendo Sxhkdrc "
+sudo nano ~/.config/sxhkd/sxhkdrc
+echo "Guardando ... "
+echo "Exitoso "
+	# Fin Lecura Sxhkdrc
+
 # Espera 5s en la terminal
 sleep 5
 # Limpia la terminal de la consola
 clear
-
 # Instalando yay
 echo "Instalamos ly"
 cd
@@ -71,41 +86,34 @@ cd
 rm -R -f ly/
 clear
 sleep 5
-
 # creacion del archivo .xinitrc
 echo "Creacion del archivo .xinitrc y configurandolo"
 cd
 echo
 touch .xinitrc
-echo "sxhkd &\exec bspwm"| sudo .xinitrc
+echo "sxhkd &\exec bspwm" >> ~/.xinitrc
 clear
 sleep 5 
-
 # Instalamos zsh
 echo "Instalando zsh ..."
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cd
-
 # instalamos los programas necesarios para el area de optimizacion
 clear
 sleep 5
 echo "Instalando los programas necesarios"
 yay -S visual-studio-code-bin google-chrome firefox
-
 echo ""
 echo "Se activa el servicio samba"
-
 # Se activa SAMBA-Service
 echo "Se activa el servicio iwd"
 sudo systemctl enable smb.service --now
 firewall-cmd --permanent --add-service={samba,samba-client,samba-dc} --zone=home
 clear
 sleep 5 
-
 # Se activa IWD
 echo "Se activa el servicio iwd"
 sudo systemctl enable iwd --now
-
 # Descarga el wallpaper
 echo "Empezando descarga de Wallpaper"
 cd
@@ -121,7 +129,6 @@ mkdir Wallpaper
 cd Wallpaper
 wget https://i.ibb.co/jysssPf/911484.jpg
 clear
-
 # Instalacion y configuracion de temas de polybar
 echo "Instalacion y configuracion polybar-themes"
 cd
@@ -131,14 +138,16 @@ chmod +x setup.sh
 bash setup.sh
 cd
 echo "Escritura y configuracion de archivos en bspwmrc y sxhkdrc"
-echo "bash ~/.config/polybar/launch.sh --material"| sudo ~/.config/bspwm/bspwmrc
-echo "feh --bg-scale ~/Documents/Documentacion/Personalizacion/Files/Wallpaper/911484.jpg"| sudo ~/.config/bspwm/bspwmrc"
+echo "bash ~/.config/polybar/launch.sh --material" >> ~/.config/bspwm/bspwmrc
+echo "feh --bg-scale ~/Documents/Documentacion/Personalizacion/Files/Wallpaper/911484.jpg" >> ~/.config/bspwm/bspwmrc"
 cd
-clear 
+clear
 
 # Instalacion y activacion de pulseaudio
 echo "Instalando y activando pulseaudio ...."
 sudo systemctl enable pulseaudio --now
 
 # End of the File
+	# Reinicia el sistem para finalizar los cambios
+echo " Reiniciando ... "
 sudo reboot now
